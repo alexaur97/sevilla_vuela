@@ -39,7 +39,15 @@ class Llegada(models.Model):
         ordering = ('llegada',)
 
 class Aerolinea(models.Model):
+    oaci = models.CharField(primary_key = True, max_length=10)
     nombre = models.CharField(max_length = 30)
+    telefono = models.CharField(max_length = 15)
+    logo = models.URLField()
+    email = models.EmailField()
+    url_web = models.URLField()
 
     def __str__(self):
-        return self.nombre
+        return self.nombre + " (" + self.oaci + ")"
+    
+    class Meta:
+        ordering = ('nombre',)

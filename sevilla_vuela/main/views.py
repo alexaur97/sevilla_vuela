@@ -2,19 +2,26 @@ from django.shortcuts import render
 from bs4 import BeautifulSoup
 import urllib.request as ur
 from .models import Salida, Llegada, Aerolinea
+from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponse
+from django.conf import settings
 
 def inicio(request):
-    Salida.objects.all().delete()
-    Llegada.objects.all().delete()
-    Aerolinea.objects.all().delete()
-    scraping()
-    return HttpResponse('<h1>Hecho</h1>')
+    try:
+        Salida.objects.all().delete()
+        Llegada.objects.all().delete()
+        scraping_vuelos()
+    except ObjectDoesNotExist:
+        scraping_aerolineas()
+    aerolineas = Aerolinea.objects.all()
+    return render(request, 'index.html', {'aerolineas':aerolineas, 'STATIC_URL':settings.STATIC_URL})
 
-def scraping():
-    aerolineas=[]
-    almacenar_llegadas(aerolineas)
-    almacenar_salidas(aerolineas)
+def scraping_aerolineas():
+    return None
+
+def scraping_vuelos():
+    almacenar_llegadas()
+    almacenar_salidas()
 
 def salidas():
     datos = ur.urlopen("https://www.flightstats.com/go/weblet?guid=34b64945a69b9cac:7b907964:13ed466ba45:3e7e&weblet=status&action=AirportFlightStatus&airportCode=SVQ")
@@ -28,7 +35,7 @@ def llegadas():
     lista = s.find_all("table", class_=["tableListingTable"])
     return lista
 
-def almacenar_salidas(aerolineas):
+def almacenar_salidas():
     lista = salidas()
     for i in lista:
         vuelos = i.find_all('tr')
@@ -42,12 +49,7 @@ def almacenar_salidas(aerolineas):
                     codigo_vuelo = codigo_vuelo + ' (codeshare)'
                 
                 aerolinea=c[1].get_text().strip()
-                if aerolinea not in aerolineas:
-                    aerolineas.append(aerolinea)
-                    company = Aerolinea(nombre = aerolinea)
-                    company.save()
-                else:
-                    company = Aerolinea.objects.get(nombre=aerolinea)
+                company = Aerolinea.objects.get(nombre=aerolinea)
                 
                 destino=c[2].get_text().strip()
                 hora_salida=c[3].get_text().strip()
@@ -60,7 +62,7 @@ def almacenar_salidas(aerolineas):
                 salida = Salida(codigo_vuelo=codigo_vuelo, aerolinea=company, destino = destino, partida = hora_salida, estado = estado, con_retraso=con_retraso)
                 salida.save()
 
-def almacenar_llegadas(aerolineas):
+def almacenar_llegadas():
     lista = llegadas()
     for i in lista:
         vuelos = i.find_all('tr')
@@ -74,12 +76,7 @@ def almacenar_llegadas(aerolineas):
                     codigo_vuelo = codigo_vuelo + ' (codeshare)'
 
                 aerolinea=c[1].get_text().strip()
-                if aerolinea not in aerolineas:
-                    aerolineas.append(aerolinea)
-                    company = Aerolinea(nombre = aerolinea)
-                    company.save()
-                else:
-                    company = Aerolinea.objects.get(nombre=aerolinea)
+                company = Aerolinea.objects.get(nombre=aerolinea)
 
                 origen=c[2].get_text().strip()
                 hora_llegada=c[3].get_text().strip()

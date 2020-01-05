@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang='es'>
+  <head>
+	<meta charset='utf-8'>
+	<title>Sevilla vuela</title>
+	<link rel="stylesheet" href="{{STATIC_URL}}css/estilos.css">
+  </head>
+  	<body>
+		<header class="header">
+			<h1>Sevilla vuela</h1>
+			<nav class="nav">
+				<ul class="menuNav">
+					<li class="opcionInicio"><a href="/">Sevilla vuela</a></li>
+				</ul>
+			</nav>
+		</header>
+		<div class="wrapper">
+			<section>
+				<h1 class="uk-article-title">{% block titulo %} {% endblock %}</h1>
+				<div class="contenido" style="position: fixed;">
+				{% block contenido %} {% endblock %}
+				</div>
+			</section>
+		</div>
+  	</body>
+</html>
