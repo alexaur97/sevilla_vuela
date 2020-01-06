@@ -3,21 +3,25 @@
   <head>
 	<meta charset='utf-8'>
 	<title>Sevilla vuela</title>
+	<link rel="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
 	<link rel="stylesheet" href="{{STATIC_URL}}css/estilos.css">
   </head>
   	<body>
-		<header class="header">
-			<h1>Sevilla vuela</h1>
-			<nav class="nav">
-				<ul class="menuNav">
-					<li class="opcionInicio"><a href="/">Sevilla vuela</a></li>
-				</ul>
+		
+		<header>
+			<p><img width="250" style="margin-top: 40px;" src="https://i.ibb.co/9ZHXWgc/Captura.png"/></p>
+			<nav>
+				<a href="#">Inicio</a>
+				<a href="/aerolineas">Aerolíneas</a>
+				<a href="/vuelos">Vuelos</a>
 			</nav>
 		</header>
+
 		<div class="wrapper">
 			<section>
-				<h1 class="uk-article-title">{% block titulo %} {% endblock %}</h1>
-				<div class="contenido" style="position: fixed;">
+				<section class="titulo">
+					<h1>{% block titulo %} {% endblock %}</section></h1>
+				<div class="contenido">
 				{% block contenido %} {% endblock %}
 				</div>
 			</section>
