@@ -2,7 +2,6 @@
     margin: 0;
     padding: 0;
     border: 0;
-    vertical-align: baseline;
     box-sizing: border-box;
 }
 
@@ -71,6 +70,8 @@ h2{
 .wrapper{
     max-width: 800px;
     margin: 0 auto;
+    min-height: 330px;
+    padding-bottom: 20px;
 }
 
 section{
@@ -157,7 +158,72 @@ h1.titulo-vuelo {
     background-color: white;
 }
 
-#flex-txt p{
+.flex-txt p{
     color: #555e5f;
     line-height: 2;
+}
+
+footer{
+    width: 100%;
+    bottom: 0;
+    position: relative;
+    background-color: #232838;
+    font-family: Arial, Helvetica, sans-serif;
+    padding: 10px;
+    font-size: small;
+}
+
+.ul-footer{
+    list-style: none;
+    float: left;
+    padding: 10px 20%;
+}
+
+.ul-footer a{
+    text-decoration: none;
+    color: rgb(170, 174, 185);
+}
+
+.ul-footer a:hover{text-decoration: underline; color: white;}
+
+.footer-split{
+    border-top: 1px solid rgb(98, 100, 112) ;
+    margin: 0 auto;
+    max-width: 1400px;
+}
+
+.ul-info-footer{
+    list-style: none;
+    padding-top: 10px;
+    padding-left: 12%;
+    color: rgb(97, 100, 109);
+}
+
+#img-footer{
+    padding-top: 10px;
+    text-align: center;
+}
+
+.bienvenida{
+    background-color: rgb(243, 243, 243);
+    box-shadow: none;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.foto-bienvenida{
+    padding-top: 30px;
+    text-align: center;
+}
+
+.bienvenida p{
+    padding: 20px;
+    font-size: 15px;
+}
+
+.form-error{
+    background-color: rgb(243, 243, 243);
+    height: 30px;
+    color: darkred;
+    box-shadow: none;
+    padding: 6px 20px;
 }

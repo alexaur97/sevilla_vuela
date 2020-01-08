@@ -18,13 +18,15 @@ def inicio(request):
     formulario1 = vuelos_por_destino()
     salidas = None
 
+    post=0
     if request.method == 'POST':
         formulario1 = vuelos_por_destino(request.POST)
+        post=1
         
         if formulario1.is_valid():
             salidas = Salida.objects.filter(destino__contains=formulario1.cleaned_data['destino'])
 
-    return render(request, 'index.html', {'STATIC_URL':settings.STATIC_URL,'formulario1':formulario1, 'salidas':salidas,})
+    return render(request, 'index.html', {'STATIC_URL':settings.STATIC_URL, 'post':post,'formulario1':formulario1, 'salidas':salidas,})
 
 def scraping_aerolineas():
     return None
@@ -96,3 +98,6 @@ def almacenar_llegadas():
                 
                 llegada = Llegada(codigo_vuelo=codigo_vuelo, aerolinea=company, origen = origen, llegada = hora_llegada, estado = estado, con_retraso=con_retraso)
                 llegada.save()
+
+def about(request):
+    return render(request, 'about.html')
