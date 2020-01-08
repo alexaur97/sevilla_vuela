@@ -18,7 +18,7 @@ header{
     height: 300px;
     background: #94c5fd;
     text-align: center;
-    position: fixed;
+    position: absolute;
     top:0;
     overflow: hidden;
     transition: all 0.5s ease;
@@ -68,12 +68,6 @@ h2{
     color: #2c3e58
 }
 
-p{
-    margin-bottom: 2rem;
-    line-height: 2;
-    color: #7f8c8d
-}
-
 .wrapper{
     max-width: 800px;
     margin: 0 auto;
@@ -100,6 +94,25 @@ th {
 
 fieldset{
     border: 2px solid #d1d4d8 ;
+    padding: 10px 20px;
+}
+
+input.txt{
+    padding: 3px;
+    border: 1px solid #2c3e58;
+}
+
+input.button{
+    color: white;
+    background-color: #4981c0;
+    padding: 5px;
+    border-radius: 2px;
+}
+
+input.button:hover{
+    color: #efefef;
+    background-color: #3971b0;
+    
 }
 
 legend{
@@ -113,7 +126,38 @@ section .titulo{
     box-shadow: none;
     text-align: center;
     color: rgba(0, 0, 0, 0.801);
-    font-family: Roboto,Trebuchet MS,Lucida Sans Unicode,Lucida Grande,Lucida Sans,Arial,sans-serif;
+    font-family: Arial, Helvetica, sans-serif;
     font-weight: 100;
     font-size: 1.5em;
+}
+
+h1.titulo-vuelo {
+    color: #272b3d;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.flex{
+    margin: 20px;
+    display: flex;
+    background-color: rgb(243, 243, 243);
+    border: 1px solid #4981c0;
+}
+
+#flex-img{
+    padding: 20px;
+    margin: 10px;
+}
+
+#flex-txt{
+    padding: 20px;
+    margin: 10px;
+}
+
+.flex:hover{
+    background-color: white;
+}
+
+#flex-txt p{
+    color: #555e5f;
+    line-height: 2;
 }

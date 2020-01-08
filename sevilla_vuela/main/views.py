@@ -5,6 +5,7 @@ from .models import Salida, Llegada, Aerolinea
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponse
 from django.conf import settings
+from .forms import vuelos_por_destino
 
 def inicio(request):
     try:
@@ -13,8 +14,17 @@ def inicio(request):
         scraping_vuelos()
     except ObjectDoesNotExist:
         scraping_aerolineas()
-    aerolineas = Aerolinea.objects.all()
-    return render(request, 'index.html', {'aerolineas':aerolineas, 'STATIC_URL':settings.STATIC_URL})
+
+    formulario1 = vuelos_por_destino()
+    salidas = None
+
+    if request.method == 'POST':
+        formulario1 = vuelos_por_destino(request.POST)
+        
+        if formulario1.is_valid():
+            salidas = Salida.objects.filter(destino__contains=formulario1.cleaned_data['destino'])
+
+    return render(request, 'index.html', {'STATIC_URL':settings.STATIC_URL,'formulario1':formulario1, 'salidas':salidas,})
 
 def scraping_aerolineas():
     return None
@@ -56,7 +66,6 @@ def almacenar_salidas():
                 estado = c[4].get_text().strip()
                 con_retraso = False
                 if estado.split()[-1] == 'Delayed':
-                    estado = 'Con retraso'
                     con_retraso=True
                 
                 salida = Salida(codigo_vuelo=codigo_vuelo, aerolinea=company, destino = destino, partida = hora_salida, estado = estado, con_retraso=con_retraso)
@@ -83,7 +92,6 @@ def almacenar_llegadas():
                 estado = c[4].get_text().strip()
                 con_retraso=False
                 if estado.split()[-1] == 'Delayed':
-                    estado = estado + '(Con retraso)'
                     con_retraso=True
                 
                 llegada = Llegada(codigo_vuelo=codigo_vuelo, aerolinea=company, origen = origen, llegada = hora_llegada, estado = estado, con_retraso=con_retraso)

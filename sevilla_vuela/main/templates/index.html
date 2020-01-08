@@ -10,19 +10,48 @@
         <th>
             <fieldset>
                 <legend>
-                    Buscador de llegadas por origen
+                    Buscador de salidas por destino
                 </legend>
-                Insertar aquí el formulario
+                <form id = "formulario1" method="POST">{% csrf_token %}
+                    <input class="txt" type="text" name="destino" placeholder="Destino"/>
+                    <input class="button" type="submit" value="Buscar"/>
             </fieldset>
         </th>
         <th>
             <fieldset>
                 <legend>
-                    Buscador de salidas por destino
+                    Buscador de llegadas por origen
                 </legend>
                 Insertar aquí el formulario
             </fieldset>
         </th>
     </tr>
 </table>
+
+{% if salidas %}
+<div class="contenedor-titulo-vuelo">
+    <h1 class="titulo-vuelo">Salidas</h1>
+</div>
+
+{% for salida in salidas%}
+<div class="flex">
+    <div id="flex-img">
+        <div>
+            <img style="align-self: auto;" src="{{salida.aerolinea.logo}}">
+        </div>
+        <div style="text-align: center;">
+            {{salida.aerolinea}}
+        </div>
+    </div>
+    <div id="flex-txt">
+        <p>{{salida}}</p>
+        {{salida.partida}}
+        {{salida.estado}}
+        {% if salida.con_retraso == True %}
+           <p style="color: rgb(206, 81, 81);">Con retraso</p>
+        {% endif %}
+    </div>
+</div>
+{% endfor %}
+{% endif %}
 {% endblock %}
