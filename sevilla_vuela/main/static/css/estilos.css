@@ -169,7 +169,7 @@ footer{
     position: relative;
     background-color: #232838;
     font-family: Arial, Helvetica, sans-serif;
-    padding: 10px;
+    padding-top: 10px;
     font-size: small;
 }
 
@@ -196,18 +196,22 @@ footer{
     list-style: none;
     padding-top: 10px;
     padding-left: 12%;
+    padding-bottom: 32px;
     color: rgb(97, 100, 109);
 }
 
 #img-footer{
-    padding-top: 10px;
     text-align: center;
+    background-color: #181c27;
+    padding-top: 9px;
+    padding-bottom: 4px;
 }
 
 .bienvenida{
     background-color: rgb(243, 243, 243);
     box-shadow: none;
     font-family: Arial, Helvetica, sans-serif;
+    padding-top: 10px;
 }
 
 .foto-bienvenida{
