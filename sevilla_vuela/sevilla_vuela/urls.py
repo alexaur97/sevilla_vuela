@@ -22,5 +22,7 @@ urlpatterns = [
     path('', views.inicio),
     path('inicio/', views.inicio),
     path('inicio.html/', views.inicio),
-    path('about_us/', views.about)
+    path('about_us/', views.about),
+    path('vuelos/', views.listar_vuelos),
+    path('llegadas/', views.listar_llegadas),
 ]

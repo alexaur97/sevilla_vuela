@@ -6,6 +6,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponse
 from django.conf import settings
 from .forms import vuelos_por_destino
+from django.template import loader
 
 def inicio(request):
     try:
@@ -101,3 +102,17 @@ def almacenar_llegadas():
 
 def about(request):
     return render(request, 'about.html')
+
+
+def listar_vuelos(request):
+    return render(request, 'vuelos.html')
+
+
+def listar_llegadas(request):
+    all_llegadas = Llegada.objects.all()
+    template = loader.get_template('lista_llegadas.html')
+    context = {
+        'all_llegadas' : all_llegadas,
+    }
+    result = template.render(context, request)
+    return HttpResponse(result)
