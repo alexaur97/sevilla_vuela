@@ -105,14 +105,14 @@ def about(request):
 
 
 def listar_vuelos(request):
-    return render(request, 'vuelos.html')
+    return render(request, 'vuelos.html', {'STATIC_URL':settings.STATIC_URL,})
 
 
 def listar_llegadas(request):
     all_llegadas = Llegada.objects.all()
     template = loader.get_template('lista_llegadas.html')
     context = {
-        'all_llegadas' : all_llegadas,
+        'all_llegadas' : all_llegadas, 'STATIC_URL':settings.STATIC_URL,
     }
     result = template.render(context, request)
     return HttpResponse(result)
