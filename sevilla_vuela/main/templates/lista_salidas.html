@@ -1,0 +1,22 @@
+{% extends 'master.html' %}
+
+{% block titulo %} SALIDAS {% endblock %}
+    
+{% block contenido %}
+<html>
+<head>
+<title>Lista de Salidas</title>
+</head>
+<body>
+<section>
+<h1>Lista de las salidas de todos los vuelos</h1>
+<l>
+{% for v in all_salidas %}
+<li>·Codigo de vuelo:{{v.codigo_vuelo}}     ·Origen:{{v.origen}}       ·LLegada:{{v.salida}}      ·Estado:{{v.estado}}</li>
+{% endfor %}
+</l>
+</section>
+</body>
+</html>
+
+{% endblock %}

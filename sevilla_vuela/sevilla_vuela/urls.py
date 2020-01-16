@@ -25,4 +25,6 @@ urlpatterns = [
     path('about_us/', views.about),
     path('vuelos/', views.listar_vuelos),
     path('llegadas/', views.listar_llegadas),
+    path('salidas/', views.listar_salidas),
+
 ]

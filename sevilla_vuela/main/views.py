@@ -116,3 +116,13 @@ def listar_llegadas(request):
     }
     result = template.render(context, request)
     return HttpResponse(result)
+
+
+def listar_salidas(request):
+    all_salidas = Salida.objects.all()
+    template = loader.get_template('lista_salidas.html')
+    context = {
+        'all_salidas' : all_salidas, 'STATIC_URL':settings.STATIC_URL,
+    }
+    result = template.render(context, request)
+    return HttpResponse(result)
