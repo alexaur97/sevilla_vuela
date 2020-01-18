@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from bs4 import BeautifulSoup
 import urllib.request as ur
-from .models import Salida, Llegada, Aerolinea
+from .models import Salida, Salida_comp, Llegada, Llegada_comp, Aerolinea
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponse
 from django.conf import settings
@@ -57,21 +57,22 @@ def almacenar_salidas():
             a = c[0].find('a')
             if a != None:
                 codigo_vuelo = a.get_text().strip()
-                codigo_compartido = c[0].find('span')
-                if codigo_compartido != None:
-                    codigo_vuelo = codigo_vuelo + ' (codeshare)'
-                
                 aerolinea=c[1].get_text().strip()
-                company = Aerolinea.objects.get(nombre=aerolinea)
-                
                 destino=c[2].get_text().strip()
                 hora_salida=c[3].get_text().strip()
                 estado = c[4].get_text().strip()
                 con_retraso = False
+                
                 if estado.split()[-1] == 'Delayed':
                     con_retraso=True
                 
-                salida = Salida(codigo_vuelo=codigo_vuelo, aerolinea=company, destino = destino, partida = hora_salida, estado = estado, con_retraso=con_retraso)
+                codigo_compartido = c[0].find('span')
+                if codigo_compartido != None:
+                    codigo_vuelo = codigo_vuelo + ' (codeshare)'
+                    salida = Salida_comp(codigo_vuelo=codigo_vuelo, aerolinea=aerolinea, destino = destino, partida = hora_salida, estado = estado, con_retraso=con_retraso)
+                else:
+                    company = Aerolinea.objects.get(nombre=aerolinea)
+                    salida = Salida(codigo_vuelo=codigo_vuelo, aerolinea=company, destino = destino, partida = hora_salida, estado = estado, con_retraso=con_retraso)
                 salida.save()
 
 def almacenar_llegadas():
@@ -83,21 +84,22 @@ def almacenar_llegadas():
             a = c[0].find('a')
             if a != None:
                 codigo_vuelo = a.get_text().strip()
-                codigo_compartido = c[0].find('span')
-                if codigo_compartido != None:
-                    codigo_vuelo = codigo_vuelo + ' (codeshare)'
-
                 aerolinea=c[1].get_text().strip()
-                company = Aerolinea.objects.get(nombre=aerolinea)
-
                 origen=c[2].get_text().strip()
                 hora_llegada=c[3].get_text().strip()
                 estado = c[4].get_text().strip()
                 con_retraso=False
+                
                 if estado.split()[-1] == 'Delayed':
                     con_retraso=True
                 
-                llegada = Llegada(codigo_vuelo=codigo_vuelo, aerolinea=company, origen = origen, llegada = hora_llegada, estado = estado, con_retraso=con_retraso)
+                codigo_compartido = c[0].find('span')
+                if codigo_compartido != None:
+                    codigo_vuelo = codigo_vuelo + ' (codeshare)'
+                    llegada = Llegada_comp(codigo_vuelo=codigo_vuelo, aerolinea=aerolinea, origen = origen, llegada = hora_llegada, estado = estado, con_retraso=con_retraso)
+                else:
+                    company = Aerolinea.objects.get(nombre=aerolinea)
+                    llegada = Llegada(codigo_vuelo=codigo_vuelo, aerolinea=company, origen = origen, llegada = hora_llegada, estado = estado, con_retraso=con_retraso)
                 llegada.save()
 
 def about(request):

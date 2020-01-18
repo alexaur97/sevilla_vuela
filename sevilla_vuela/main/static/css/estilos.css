@@ -5,11 +5,18 @@
     box-sizing: border-box;
 }
 
+a{
+    text-decoration: none;
+}
+
+ul{
+    list-style: none;
+}
+
 body{
     background: #eff2f5;
     font-family: sans-serif;
     padding-top: 330px;
-    transition: padding-top 0.5s ease;
 }
 
 header{
@@ -20,7 +27,6 @@ header{
     position: absolute;
     top:0;
     overflow: hidden;
-    transition: all 0.5s ease;
 }
 
 
@@ -29,7 +35,6 @@ header h1{
     color: white;
     line-height: 230px;
     font-weight: 300;
-    transition: all 0.3s ease;
 }
 
 header h1 i{
@@ -51,7 +56,6 @@ header nav a{
     display: inline-block;
     padding: 22px 16px;
     line-height: 1;
-    text-decoration: none;
     border-radius: 5p;
 }
 
@@ -85,6 +89,7 @@ section{
 table{
     width: 100%;
     border-collapse: collapse;
+    box-align: center;
 }
 
 th {
@@ -180,7 +185,6 @@ footer{
 }
 
 .ul-footer a{
-    text-decoration: none;
     color: rgb(170, 174, 185);
 }
 
@@ -230,4 +234,47 @@ footer{
     color: darkred;
     box-shadow: none;
     padding: 6px 20px;
+}
+
+.url-rel {
+    padding: 1px 35px ;
+    color: rgb(71, 71, 71);
+    border: 1px solid #cfd5d6;
+    max-width: 85%;
+    margin: 0 auto;
+    border-radius: 5px;
+    background-color: rgb(243, 243, 243);
+}
+
+.url-rel a{
+    color:rgb(99,150,170);
+    
+}
+
+.tipo-vuelos{
+    padding: 50px 50px;
+    width: 75%;
+}
+
+.lista-opciones{
+    padding: 20px;
+}
+
+.lista-opciones li{
+    padding: 20px;
+}
+
+.lista-opciones div{
+    border-bottom: 2px solid rgb(56, 67, 90);
+    padding: 20px 50px;
+    background-color: #d8dbe4;
+    height: 60px;
+    font-size: large;
+    color: rgb(51, 62, 85);
+}
+
+.lista-opciones div:hover{
+    border-bottom: 2px solid rgb(17, 0, 255);
+    color: rgb(17, 0, 255);
+    background-color: #e2e3e7;
 }

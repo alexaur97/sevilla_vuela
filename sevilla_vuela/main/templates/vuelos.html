@@ -4,17 +4,22 @@
 {% block titulo %} VUELOS {% endblock %}
 
 {% block contenido %}
-<table>
-    <tr>
-        <th>
-            <fieldset>
-                <a href="/">Inicio</a>
-                <a href="/llegadas">Llegadas</a>
-                <a href="/salidas">Salidas</a>
-            </fieldset>
-        </th>
-    </tr>
-</table>
+<div class="url-rel" ><a href="/">Inicio</a> > Vuelos</div>
 
-
+<ul class="lista-opciones">
+    <li>
+        <a href="/salidas">
+            <div>
+                Salidas
+            </div>
+        </a>
+    </li>
+    <li>
+        <a href="/llegadas">
+            <div>
+                Llegadas
+            </div>
+        </a>
+    </li>
+</ul>
 {% endblock %}

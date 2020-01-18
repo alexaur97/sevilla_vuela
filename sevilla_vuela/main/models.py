@@ -1,17 +1,19 @@
 from django.db import models
 
-class Salida(models.Model):
+class Vuelo(models.Model):
     ESTADOS = (
         ('Aterrizó','Aterrizo'),
         ('Programado','Programado'),
         ('En Ruta', 'En Ruta'),
     )
     codigo_vuelo = models.CharField(primary_key = True, max_length = 10)
-    aerolinea = models.ForeignKey('Aerolinea', on_delete=models.CASCADE)
-    destino = models.CharField(max_length = 50)
-    partida = models.CharField(verbose_name='Hora de salida', max_length = 10)
     estado = models.CharField(max_length = 30, choices=ESTADOS)
     con_retraso = models.BooleanField()
+
+class Salida(Vuelo):
+    destino = models.CharField(max_length = 50)
+    partida = models.CharField(verbose_name='Hora de salida', max_length = 10)
+    aerolinea = models.ForeignKey('Aerolinea', on_delete=models.CASCADE)
 
     def __str__(self):
         return self.codigo_vuelo + ': (SVQ) Sevilla - ' + self.destino
@@ -19,24 +21,38 @@ class Salida(models.Model):
     class Meta:
         ordering = ('partida',)
 
-class Llegada(models.Model):
-    ESTADOS = (
-        ('Aterrizó','Aterrizo'),
-        ('Programado','Programado'),
-        ('En Ruta', 'En Ruta'),
-    )
-    codigo_vuelo = models.CharField(primary_key = True, max_length = 10)
+class Llegada(Vuelo):
     aerolinea = models.ForeignKey('Aerolinea', on_delete=models.CASCADE)
     origen = models.CharField(max_length = 50)
-    llegada = models.CharField(verbose_name='Hora de llegada', max_length = 10)
-    estado = models.CharField(max_length = 30, choices=ESTADOS)
-    con_retraso = models.BooleanField()
+    hora_llegada = models.CharField(verbose_name='Hora de llegada', max_length = 10)
 
     def __str__(self):
         return self.codigo_vuelo + ': ' + self.origen +' - (SVQ) Sevilla'
     
     class Meta:
-        ordering = ('llegada',)
+        ordering = ('hora_llegada',)
+
+class Salida_comp(Vuelo):
+    aerolinea = models.CharField(max_length = 50)
+    destino = models.CharField(max_length = 50)
+    partida = models.CharField(verbose_name='Hora de salida', max_length = 10)
+
+    def __str__(self):
+        return self.codigo_vuelo + ': (SVQ) Sevilla - ' + self.destino
+    
+    class Meta:
+        ordering = ('partida',)
+
+class Llegada_comp(Vuelo):
+    aerolinea = models.CharField(max_length = 50)
+    origen = models.CharField(max_length = 50)
+    hora_llegada = models.CharField(verbose_name='Hora de llegada', max_length = 10)
+
+    def __str__(self):
+        return self.codigo_vuelo + ': ' + self.origen +' - (SVQ) Sevilla'
+    
+    class Meta:
+        ordering = ('hora_llegada',)
 
 class Aerolinea(models.Model):
     oaci = models.CharField(primary_key = True, max_length=10)
