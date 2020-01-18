@@ -9,11 +9,12 @@ from .forms import vuelos_por_destino
 from .forms import vuelos_por_origen
 from django.template import loader
 
+
 def inicio(request):
     try:
-        Salida.objects.all().delete()
-        Llegada.objects.all().delete()
         Aerolinea.objects.all().delete()        
+        #Salida.objects.all().delete()
+        #Llegada.objects.all().delete()
         scraping_vuelos()
     except ObjectDoesNotExist:
         scraping_aerolineas()
@@ -94,7 +95,11 @@ def almacenar_salidas():
                 codigo_compartido = c[0].find('span')
                 if codigo_compartido != None:
                     codigo_vuelo = codigo_vuelo + ' (codeshare)'
-                    salida = Salida_comp(codigo_vuelo=codigo_vuelo, aerolinea=aerolinea, destino = destino, partida = hora_salida, estado = estado, con_retraso=con_retraso)
+                    operadora_url = c[0].find('a').get('href')
+                    datos = ur.urlopen(operadora_url)
+                    s = BeautifulSoup(datos, "lxml")
+                    operadora = s.find("div", class_=["ticket__OperatedBy-s1rrbl5o-5","fbPHSm"]).get_text()
+                    salida = Salida_comp(codigo_vuelo=codigo_vuelo, aerolinea=aerolinea, destino = destino, partida = hora_salida, estado = estado, con_retraso=con_retraso, operadora=operadora)
                 else:
                     company = Aerolinea.objects.get(nombre=aerolinea)
                     salida = Salida(codigo_vuelo=codigo_vuelo, aerolinea=company, destino = destino, partida = hora_salida, estado = estado, con_retraso=con_retraso)
@@ -121,7 +126,11 @@ def almacenar_llegadas():
                 codigo_compartido = c[0].find('span')
                 if codigo_compartido != None:
                     codigo_vuelo = codigo_vuelo + ' (codeshare)'
-                    llegada = Llegada_comp(codigo_vuelo=codigo_vuelo, aerolinea=aerolinea, origen = origen, llegada = hora_llegada, estado = estado, con_retraso=con_retraso)
+                    operadora_url = c[0].find('a').get('href')
+                    datos = ur.urlopen(operadora_url)
+                    s = BeautifulSoup(datos, "lxml")
+                    operadora = s.find("div", class_=["ticket__OperatedBy-s1rrbl5o-5","fbPHSm"]).get_text()
+                    llegada = Llegada_comp(codigo_vuelo=codigo_vuelo, aerolinea=aerolinea, origen = origen, llegada = hora_llegada, estado = estado, con_retraso=con_retraso, operadora=operadora)
                 else:
                     company = Aerolinea.objects.get(nombre=aerolinea)
                     llegada = Llegada(codigo_vuelo=codigo_vuelo, aerolinea=company, origen = origen, llegada = hora_llegada, estado = estado, con_retraso=con_retraso)
