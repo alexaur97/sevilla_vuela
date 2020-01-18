@@ -6,17 +6,24 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponse
 from django.conf import settings
 from .forms import vuelos_por_destino
+from .forms import vuelos_por_origen
 from django.template import loader
 
 def inicio(request):
     try:
         Salida.objects.all().delete()
         Llegada.objects.all().delete()
+        Aerolinea.objects.all().delete()        
         scraping_vuelos()
     except ObjectDoesNotExist:
         scraping_aerolineas()
 
+
+
     formulario1 = vuelos_por_destino()
+    formulario2 = vuelos_por_origen()
+
+    llegadas = None
     salidas = None
 
     post=0
@@ -27,14 +34,26 @@ def inicio(request):
         if formulario1.is_valid():
             salidas = Salida.objects.filter(destino__contains=formulario1.cleaned_data['destino'])
 
+
+    if request.method == 'POST':
+        formulario2 = vuelos_por_origen(request.POST)
+        post=1
+        
+        if formulario2.is_valid():
+            llegadas = Llegada.objects.filter(origen__contains=formulario2.cleaned_data['origen'])
+
     return render(request, 'index.html', {'STATIC_URL':settings.STATIC_URL, 'post':post,'formulario1':formulario1, 'salidas':salidas,})
+
 
 def scraping_aerolineas():
     return None
 
 def scraping_vuelos():
+    almacenar_aerolineas()
     almacenar_llegadas()
     almacenar_salidas()
+   
+
 
 def salidas():
     datos = ur.urlopen("https://www.flightstats.com/go/weblet?guid=34b64945a69b9cac:7b907964:13ed466ba45:3e7e&weblet=status&action=AirportFlightStatus&airportCode=SVQ")
@@ -46,6 +65,12 @@ def llegadas():
     datos = ur.urlopen("https://www.flightstats.com/go/weblet?guid=34b64945a69b9cac:7b907964:13ed466ba45:3e7e&weblet=status&action=AirportFlightStatus&airportCode=SVQ&airportQueryType=1")
     s = BeautifulSoup(datos, "lxml")
     lista = s.find_all("table", class_=["tableListingTable"])
+    return lista
+
+def aerolineas(): 
+    datos = ur.urlopen("http://www.aena.es/es/aeropuerto-sevilla/companias-aereas.html")
+    s = BeautifulSoup(datos, "lxml")
+    lista = s.find("tbody")   
     return lista
 
 def almacenar_salidas():
@@ -99,6 +124,22 @@ def almacenar_llegadas():
                 
                 llegada = Llegada(codigo_vuelo=codigo_vuelo, aerolinea=company, origen = origen, llegada = hora_llegada, estado = estado, con_retraso=con_retraso)
                 llegada.save()
+
+
+def almacenar_aerolineas():
+    lista = aerolineas()
+    trs = lista.find_all('tr', class_="")
+    for t in trs:
+        nombre = t.find('a').get_text()
+        telefono = t.find('td').next_sibling.get_text()
+        url = t.find('a').get('href')
+        datos = ur.urlopen("http://www.aena.es" + url)
+        s = BeautifulSoup(datos, "lxml")
+        divs = s.find("div", class_=["datos_interes"])
+      
+    
+
+               
 
 def about(request):
     return render(request, 'about.html')
