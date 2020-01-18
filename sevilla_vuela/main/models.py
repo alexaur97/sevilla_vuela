@@ -17,9 +17,6 @@ class Salida(Vuelo):
 
     def __str__(self):
         return self.codigo_vuelo + ': (SVQ) Sevilla - ' + self.destino
-    
-    class Meta:
-        ordering = ('partida',)
 
 class Llegada(Vuelo):
     aerolinea = models.ForeignKey('Aerolinea', on_delete=models.CASCADE)
@@ -29,30 +26,23 @@ class Llegada(Vuelo):
     def __str__(self):
         return self.codigo_vuelo + ': ' + self.origen +' - (SVQ) Sevilla'
     
-    class Meta:
-        ordering = ('hora_llegada',)
-
 class Salida_comp(Vuelo):
     aerolinea = models.CharField(max_length = 50)
     destino = models.CharField(max_length = 50)
     partida = models.CharField(verbose_name='Hora de salida', max_length = 10)
+    operadora = models.CharField(max_length = 50)
 
     def __str__(self):
         return self.codigo_vuelo + ': (SVQ) Sevilla - ' + self.destino
-    
-    class Meta:
-        ordering = ('partida',)
 
 class Llegada_comp(Vuelo):
     aerolinea = models.CharField(max_length = 50)
     origen = models.CharField(max_length = 50)
     hora_llegada = models.CharField(verbose_name='Hora de llegada', max_length = 10)
+    operadora = models.CharField(max_length = 50)
 
     def __str__(self):
         return self.codigo_vuelo + ': ' + self.origen +' - (SVQ) Sevilla'
-    
-    class Meta:
-        ordering = ('hora_llegada',)
 
 class Aerolinea(models.Model):
     oaci = models.CharField(primary_key = True, max_length=10)
@@ -64,6 +54,3 @@ class Aerolinea(models.Model):
 
     def __str__(self):
         return self.nombre + " (" + self.oaci + ")"
-    
-    class Meta:
-        ordering = ('nombre',)

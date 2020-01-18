@@ -45,8 +45,7 @@
     </div>
     <div class="flex-txt">
         <p>{{salida}}</p>
-        {{salida.partida}}
-        {{salida.estado}}
+        <p>Llegada: {{salida.partida}} - {{salida.estado}}</p>
         {% if salida.con_retraso == True %}
            <p style="color: rgb(206, 81, 81);">Con retraso</p>
         {% endif %}
@@ -68,4 +67,5 @@
         así como las salidas y llegadas programadas que tienen cada una de ellas. </p>
 </section>
 {% endif %}
+
 {% endblock %}
