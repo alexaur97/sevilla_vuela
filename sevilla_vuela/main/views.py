@@ -16,6 +16,8 @@ def inicio(request):
         #Salida.objects.all().delete()
         #Llegada.objects.all().delete()
         scraping_vuelos()
+        scraping_aerolineas()
+
     except ObjectDoesNotExist:
         scraping_aerolineas()
 
@@ -49,10 +51,9 @@ def inicio(request):
 
 
 def scraping_aerolineas():
-    return None
+    almacenar_aerolineas()
 
 def scraping_vuelos():
-    almacenar_aerolineas()
     almacenar_llegadas()
     almacenar_salidas()
    
