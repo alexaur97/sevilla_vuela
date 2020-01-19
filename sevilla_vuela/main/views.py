@@ -149,8 +149,29 @@ def almacenar_aerolineas():
         datos = ur.urlopen("http://www.aena.es" + url)
         s = BeautifulSoup(datos, "lxml")
         divs = s.find("div", class_=["datos_interes"])
-      
-    
+        companyInfo= divs.find("div", class_=["companyInfo"])
+        ul = companyInfo.find("ul")
+        aaa  = ul.find("li")
+        oaciExt  =aaa.find("strong")
+        if oaciExt is not None: 
+            oaci= oaciExt.get_text()
+        
+        datos_ficha = companyInfo.find("ul", class_= ["datos_ficha"])
+        datos = datos_ficha.find_all("li")
+        for d in datos:
+            da = d.get_text()
+            if "Web" in da :
+                web = da
+            else:
+                web = None
+        
+            if "Correo electrónico" in da:
+                correo = da
+            else:
+                correo  = None
+        print(correo)
+        print(web)
+        print("-----------")
 
                
 
