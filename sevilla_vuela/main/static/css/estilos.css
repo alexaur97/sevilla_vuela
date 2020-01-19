@@ -137,6 +137,7 @@ section .titulo{
 h1.titulo-vuelo {
     color: #272b3d;
     font-family: Arial, Helvetica, sans-serif;
+    margin-left: 20px;
 }
 
 .flex{
@@ -274,4 +275,8 @@ footer{
     border-bottom: 2px solid rgb(17, 0, 255);
     color: rgb(17, 0, 255);
     background-color: #e2e3e7;
+}
+
+.contenedor-url-rel{
+    margin-bottom: 30px;
 }

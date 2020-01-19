@@ -30,7 +30,7 @@
 
 {% if salidas %}
 <div class="contenedor-titulo-vuelo">
-    <h1 class="titulo-vuelo">Salidas</h1>
+    <h1 class="titulo-vuelo">Resultados de salidas para: {{destino}}</h1>
 </div>
 
 {% for salida in salidas%}
@@ -45,7 +45,7 @@
     </div>
     <div class="flex-txt">
         <p>{{salida}}</p>
-        <p>Llegada: {{salida.partida}} - {{salida.estado}}</p>
+        <p>Salida: {{salida.partida}} - {{salida.estado}}</p>
         {% if salida.con_retraso == True %}
            <p style="color: rgb(206, 81, 81);">Con retraso</p>
         {% endif %}

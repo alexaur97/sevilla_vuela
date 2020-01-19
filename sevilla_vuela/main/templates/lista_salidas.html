@@ -3,14 +3,38 @@
 {% block titulo %} SALIDAS {% endblock %}
     
 {% block contenido %}
-<div class="url-rel" ><a href="/">Inicio</a> > <a href="/vuelos">Vuelos</a> > Salidas</div>
-<section>
-<h1>Lista de las salidas de todos los vuelos</h1>
-<l>
-{% for v in all_salidas %}
-<li>·Codigo de vuelo:{{v.codigo_vuelo}}     ·Origen:{{v.origen}}       ·LLegada:{{v.salida}}      ·Estado:{{v.estado}}</li>
-{% endfor %}
-</l>
-</section>
+<div class="contenedor-url-rel">
+    <div class="url-rel" >
+        <a href="/">Inicio</a> > <a href="/vuelos">Vuelos</a> > Salidas
+    </div>
+</div>
+{% if all_salidas %}
+    <div class="contenedor-titulo-vuelo">
+        <h1 class="titulo-vuelo">Lista de las salidas de todos los vuelos</h1>
+    </div>
 
+    {% for salida in all_salidas %}
+        <div class="flex">
+            <div class="flex-img">
+                <div>
+                    <img style="align-self: auto;" src="{{salida.aerolinea.logo}}">
+                </div>
+                <div style="text-align: center;">
+                    {{salida.aerolinea}}
+                </div>
+            </div>
+            <div class="flex-txt">
+                <p>{{salida}}</p>
+                <p>Salida: {{salida.partida}} - {{salida.estado}}</p>
+                {% if salida.con_retraso == True %}
+                    <p style="color: rgb(206, 81, 81);">Con retraso</p>
+                {% endif %}
+            </div>
+        </div>
+    {% endfor %}
+{% else %}
+    <section class="form-error">
+        <p>No hay salidas ni llegadas a estas horas.</p>
+    </section>
+{% endif %}
 {% endblock %}

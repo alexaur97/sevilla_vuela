@@ -12,7 +12,7 @@ from django.template import loader
 
 def inicio(request):
     try:
-        Aerolinea.objects.all().delete()        
+        #Aerolinea.objects.all().delete()        
         #Salida.objects.all().delete()
         #Llegada.objects.all().delete()
         scraping_vuelos()
@@ -26,6 +26,7 @@ def inicio(request):
 
     llegadas = None
     salidas = None
+    destino=None
 
     post=0
     if request.method == 'POST':
@@ -33,7 +34,8 @@ def inicio(request):
         post=1
         
         if formulario1.is_valid():
-            salidas = Salida.objects.filter(destino__contains=formulario1.cleaned_data['destino'])
+            destino = formulario1.cleaned_data['destino']
+            salidas = Salida.objects.filter(destino__contains=destino)
 
 
     if request.method == 'POST':
@@ -43,7 +45,7 @@ def inicio(request):
         if formulario2.is_valid():
             llegadas = Llegada.objects.filter(origen__contains=formulario2.cleaned_data['origen'])
 
-    return render(request, 'index.html', {'STATIC_URL':settings.STATIC_URL, 'post':post,'formulario1':formulario1, 'salidas':salidas,})
+    return render(request, 'index.html', {'STATIC_URL':settings.STATIC_URL, 'post':post,'formulario1':formulario1, 'salidas':salidas, 'destino':destino})
 
 
 def scraping_aerolineas():
