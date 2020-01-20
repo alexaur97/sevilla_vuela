@@ -150,29 +150,40 @@ def almacenar_aerolineas():
         datos = ur.urlopen("http://www.aena.es" + url)
         s = BeautifulSoup(datos, "lxml")
         divs = s.find("div", class_=["datos_interes"])
+        url_logo = divs.find("img").get("src")
         companyInfo= divs.find("div", class_=["companyInfo"])
         ul = companyInfo.find("ul")
         aaa  = ul.find("li")
         oaciExt  =aaa.find("strong")
         if oaciExt is not None: 
-            oaci= oaciExt.get_text()
+            oaciT= oaciExt.get_text()
         
         datos_ficha = companyInfo.find("ul", class_= ["datos_ficha"])
         datos = datos_ficha.find_all("li")
+        correo=None
+        web= None
         for d in datos:
             da = d.get_text()
             if "Web" in da :
-                web = da
-            else:
-                web = None
-        
+                startLoc = 5
+                endLoc = len(da)
+                web = da[startLoc: endLoc]
             if "Correo electrónico" in da:
-                correo = da
-            else:
-                correo  = None
-        print(correo)
-        print(web)
-        print("-----------")
+                startLoc = 20
+                endLoc = len(da)
+                correo = da[startLoc: endLoc]
+    if correo is None: 
+        if web is None:
+            aerolinea = Aerolinea(oaci= oaciT, nombre= nombre, telefono= telefono, logo =url_logo)
+        if web is not None:
+            aerolinea = Aerolinea(oaci= oaciT, nombre= nombre, telefono= telefono, logo =url_logo, url_web =web)
+    if correo is not None:
+        if web is None:
+            aerolinea = Aerolinea(oaci= oaciT, nombre= nombre, telefono= telefono, logo =url_logo, email =correo)
+        if web is not None:
+            aerolinea = Aerolinea(oaci= oaciT, nombre= nombre, telefono= telefono, logo =url_logo, email =correo, url_web =web)
+        
+    aerolinea.save()
 
                
 
