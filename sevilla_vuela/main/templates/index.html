@@ -15,6 +15,7 @@
                 <form id = "formulario1" method="POST">{% csrf_token %}
                     <input class="txt" type="text" name="destino" placeholder="Destino" required/>
                     <input class="button" type="submit" value="Buscar"/>
+                </form>
             </fieldset>
         </th>
         <th>
@@ -22,11 +23,16 @@
                 <legend>
                     Buscador de llegadas por origen
                 </legend>
-                Insertar aquí el formulario
+                <form id = "formulario2" method="POST">{% csrf_token %}
+                    <input class="txt" type="text" name="origen" placeholder="Origen" required/>
+                    <input class="button" type="submit" value="Buscar"/>  
+                    </form>            
             </fieldset>
         </th>
     </tr>
 </table>
+
+
 
 {% if salidas %}
 <div class="contenedor-titulo-vuelo">
@@ -54,11 +60,39 @@
 </div>
 {% endfor %}
 {% else %}
+
+{% if llegadas %}
+<div class="contenedor-titulo-vuelo">
+    <h1 class="titulo-vuelo">Resultados de llegadas para: {{origen}}</h1>
+</div>
+
+{% for llegada in llegadas%}
+<div class="flex">
+    <div class="flex-img">
+        <div>
+            <img style="align-self: auto;" src="{{llegada.aerolinea.logo}}">
+        </div>
+        <div style="text-align: center;">
+            {{llegada.aerolinea}}
+        </div>
+    </div>
+    <div class="flex-txt">
+        <p>{{llegada}}</p>
+        <p>Llegada: {{llegada.partida}} - {{llegada.estado}}</p>
+        {% if llegada.con_retraso == True %}
+           <p style="color: rgb(206, 81, 81);">Con retraso</p>
+        {% endif %}
+    </div>
+</div>
+{% endfor %}
+{% else %}
 {% if post == 1%}
 <section class="form-error">
     <p>No hay resultados que coincidan con los criterios de búsqueda</p>
 </section>
 {% endif %}
+{% endif %}
+
 <section class="bienvenida">
     <h1 class="h1-bienvenida">Bienvenido a Sevilla vuela</h1>
     <div class="foto-bienvenida">
@@ -68,4 +102,6 @@
         así como las salidas y llegadas programadas que tienen cada una de ellas. </p>
 </section>
 {% endif %}
+
 {% endblock %}
+

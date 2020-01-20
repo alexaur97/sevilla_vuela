@@ -19,30 +19,31 @@ def inicio(request):
         scraping_aerolineas()
 
 
-
     formulario1 = vuelos_por_destino()
     formulario2 = vuelos_por_origen()
 
     llegadas = None
     salidas = None
+    destino=None
+    origen = None
 
     post=0
     if request.method == 'POST':
         formulario1 = vuelos_por_destino(request.POST)
-        post=1
-        
-        if formulario1.is_valid():
-            salidas = Salida.objects.filter(destino__contains=formulario1.cleaned_data['destino'])
-
-
-    if request.method == 'POST':
         formulario2 = vuelos_por_origen(request.POST)
         post=1
         
+        
+        if formulario1.is_valid():
+            destino = formulario1.cleaned_data['destino']
+            salidas = Salida.objects.filter(destino__contains=destino)
+    
+        
         if formulario2.is_valid():
-            llegadas = Llegada.objects.filter(origen__contains=formulario2.cleaned_data['origen'])
+            origen  = formulario2.cleaned_data['origen']
+            llegadas = Llegada.objects.filter(origen__contains=origen)
 
-    return render(request, 'index.html', {'STATIC_URL':settings.STATIC_URL, 'post':post,'formulario1':formulario1, 'salidas':salidas,})
+    return render(request, 'index.html', {'STATIC_URL':settings.STATIC_URL, 'post':post,'formulario1':formulario1, 'salidas':salidas, 'destino':destino, 'formulario2':formulario2, 'llegadas':llegadas, 'origen':origen})
 
 
 def scraping_aerolineas():
