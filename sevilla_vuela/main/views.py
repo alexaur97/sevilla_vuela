@@ -171,18 +171,18 @@ def almacenar_aerolineas():
                 startLoc = 20
                 endLoc = len(da)
                 correo = da[startLoc: endLoc]
-    if correo is None: 
-        if web is None:
-            aerolinea = Aerolinea(oaci= oaciT, nombre= nombre, telefono= telefono, logo =url_logo)
-        if web is not None:
-            aerolinea = Aerolinea(oaci= oaciT, nombre= nombre, telefono= telefono, logo =url_logo, url_web =web)
-    if correo is not None:
-        if web is None:
-            aerolinea = Aerolinea(oaci= oaciT, nombre= nombre, telefono= telefono, logo =url_logo, email =correo)
-        if web is not None:
-            aerolinea = Aerolinea(oaci= oaciT, nombre= nombre, telefono= telefono, logo =url_logo, email =correo, url_web =web)
-        
-    aerolinea.save()
+    # if correo is None: 
+    #     if web is None:
+    #         aerolinea = Aerolinea(oaci= oaciT, nombre= nombre, telefono= telefono, logo =url_logo)
+    #     if web is not None:
+    #         aerolinea = Aerolinea(oaci= oaciT, nombre= nombre, telefono= telefono, logo =url_logo, url_web =web)
+    # else:
+    #     if web is None:
+    #         aerolinea = Aerolinea(oaci= oaciT, nombre= nombre, telefono= telefono, logo =url_logo, email =correo)
+    #     if web is not None:
+        aerolinea = Aerolinea(oaci= oaciT, nombre= nombre, telefono= telefono, logo =url_logo, email =correo, url_web =web)
+
+        aerolinea.save()
 
                
 

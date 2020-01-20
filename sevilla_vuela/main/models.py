@@ -49,7 +49,7 @@ class Aerolinea(models.Model):
     nombre = models.CharField(max_length = 30)
     telefono = models.CharField(max_length = 15)
     logo = models.URLField()
-    email = models.EmailField()
+    email = models.EmailField(null = True)
     url_web = models.URLField()
 
     def __str__(self):
