@@ -33,73 +33,70 @@
 </table>
 
 
-
-{% if salidas %}
-<div class="contenedor-titulo-vuelo">
-    <h1 class="titulo-vuelo">Resultados de salidas para: {{destino}}</h1>
-</div>
-
-{% for salida in salidas%}
-<div class="flex">
-    <div class="flex-img">
-        <div>
-            <img style="align-self: auto;" src="{{salida.aerolinea.logo}}">
+{% if salidas or llegadas %}
+    {% if salidas %}
+        <div class="contenedor-titulo-vuelo">
+            <h1 class="titulo-vuelo">Resultados de salidas para: {{destino}}</h1>
         </div>
-        <div style="text-align: center;">
-            {{salida.aerolinea}}
+
+        {% for salida in salidas%}
+            <div class="flex">
+                <div class="flex-img">
+                    <div>
+                        <img style="align-self: auto;" src="{{salida.aerolinea.logo}}">
+                    </div>
+                    <div style="text-align: center;">
+                        {{salida.aerolinea}}
+                    </div>
+                </div>
+                <div class="flex-txt">
+                    <p>{{salida}}</p>
+                    <p>Salida: {{salida.partida}} - {{salida.estado}}</p>
+                    {% if salida.con_retraso == True %}
+                    <p style="color: rgb(206, 81, 81);">Con retraso</p>
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+    {% elif llegadas %}
+        <div class="contenedor-titulo-vuelo">
+            <h1 class="titulo-vuelo">Resultados de llegadas para: {{origen}}</h1>
         </div>
-    </div>
-    <div class="flex-txt">
-        <p>{{salida}}</p>
-        <p>Salida: {{salida.partida}} - {{salida.estado}}</p>
-        {% if salida.con_retraso == True %}
-           <p style="color: rgb(206, 81, 81);">Con retraso</p>
-        {% endif %}
-    </div>
-</div>
-{% endfor %}
+
+        {% for llegada in llegadas%}
+            <div class="flex">
+                <div class="flex-img">
+                    <div>
+                        <img style="align-self: auto;" src="{{llegada.aerolinea.logo}}">
+                    </div>
+                    <div style="text-align: center;">
+                        {{llegada.aerolinea}}
+                    </div>
+                </div>
+                <div class="flex-txt">
+                    <p>{{llegada}}</p>
+                    <p>Llegada: {{llegada.hora_llegada}} - {{llegada.estado}}</p>
+                    {% if llegada.con_retraso == True %}
+                    <p style="color: rgb(206, 81, 81);">Con retraso</p>
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+    {% endif %}
 {% else %}
-
-{% if llegadas %}
-<div class="contenedor-titulo-vuelo">
-    <h1 class="titulo-vuelo">Resultados de llegadas para: {{origen}}</h1>
-</div>
-
-{% for llegada in llegadas%}
-<div class="flex">
-    <div class="flex-img">
-        <div>
-            <img style="align-self: auto;" src="{{llegada.aerolinea.logo}}">
-        </div>
-        <div style="text-align: center;">
-            {{llegada.aerolinea}}
-        </div>
-    </div>
-    <div class="flex-txt">
-        <p>{{llegada}}</p>
-        <p>Llegada: {{llegada.partida}} - {{llegada.estado}}</p>
-        {% if llegada.con_retraso == True %}
-           <p style="color: rgb(206, 81, 81);">Con retraso</p>
-        {% endif %}
-    </div>
-</div>
-{% endfor %}
-{% else %}
-{% if post == 1%}
-<section class="form-error">
-    <p>No hay resultados que coincidan con los criterios de búsqueda</p>
-</section>
-{% endif %}
-{% endif %}
-
-<section class="bienvenida">
-    <h1 class="h1-bienvenida">Bienvenido a Sevilla vuela</h1>
-    <div class="foto-bienvenida">
-        <img src="https://i.ibb.co/4MhnxMC/svq.png" width="500" />
-    </div>
-    <p>En esta página encontrarás información acerca de las compañías que operan diariamente en el aeropuerto sevillano, 
-        así como las salidas y llegadas programadas que tienen cada una de ellas. </p>
-</section>
+    {% if post == 1%}
+        <section class="form-error">
+            <p>No hay resultados que coincidan con los criterios de búsqueda</p>
+        </section>
+    {% endif %}
+        <section class="bienvenida">
+            <h1 class="h1-bienvenida">Bienvenido a Sevilla vuela</h1>
+            <div class="foto-bienvenida">
+                <img src="https://i.ibb.co/4MhnxMC/svq.png" width="500" />
+            </div>
+            <p>En esta página encontrarás información acerca de las compañías que operan diariamente en el aeropuerto sevillano, 
+                así como las salidas y llegadas programadas que tienen cada una de ellas. </p>
+        </section>
 {% endif %}
 
 {% endblock %}
