@@ -1,0 +1,62 @@
+{% extends 'master.html' %}
+
+{% block titulo %} LLEGADAS {% endblock %}
+    
+{% block contenido %}
+<div class="contenedor-url-rel">
+    <div class="url-rel" >
+        <a href="/">Inicio</a> > <a href="/aerolineas">Aerolineas</a> 
+    </div>
+</div>
+{% if all_llegadas %}
+    <div class="contenedor-titulo-vuelo">
+        <h1 class="titulo-vuelo">Lista de las llegadas de todos los vuelos</h1>
+    </div>
+
+    {% for salida in all_llegadas %}
+        <div class="flex">
+            <div class="flex-img">
+                <div style="text-align: center;">
+                    {{salida.aerolinea}}
+                </div>
+            </div>
+            <div class="flex-txt">
+                <p>{{salida}}</p>
+                <p>Llegada: {{salida.hora_llegada}} - {{salida.estado}}</p>
+                {% if salida.con_retraso == True %}
+                    <p style="color: rgb(206, 81, 81);">Con retraso</p>
+                {% endif %}
+            </div>
+        </div>
+    {% endfor %}
+{% endif %}
+
+{% if all_salidas %}
+    <div class="contenedor-titulo-vuelo">
+        <h1 class="titulo-vuelo">Lista de las salidas de todos los vuelos</h1>
+    </div>
+        {% for salida in all_salidas %}
+            <div class="flex">
+                <div class="flex-img">
+                    <div>
+                        <img style="align-self: auto;" src="{{salida.aerolinea.logo}}">
+                    </div>
+                    <div style="text-align: center;">
+                        {{salida.aerolinea}}
+                    </div>
+                </div>
+                <div class="flex-txt">
+                    <p>{{salida}}</p>
+                    <p>Salida: {{salida.partida}} - {{salida.estado}}</p>
+                    {% if salida.con_retraso == True %}
+                        <p style="color: rgb(206, 81, 81);">Con retraso</p>
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+{% else %}
+    <section class="form-error">
+        <p>No hay salidas ni llegadas de esta aerolinea.</p>
+    </section>
+{% endif %}
+{% endblock %}

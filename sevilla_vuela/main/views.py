@@ -12,9 +12,9 @@ from django.template import loader
 
 def inicio(request):
     try:
-        #Aerolinea.objects.all().delete()        
-        #Salida.objects.all().delete()
-        #Llegada.objects.all().delete()
+        # Aerolinea.objects.all().delete()        
+        # Salida.objects.all().delete()
+        # Llegada.objects.all().delete()
         scraping_vuelos()
         scraping_aerolineas()
 
@@ -135,7 +135,7 @@ def almacenar_llegadas():
                     llegada = Llegada_comp(codigo_vuelo=codigo_vuelo, aerolinea=aerolinea, origen = origen, llegada = hora_llegada, estado = estado, con_retraso=con_retraso, operadora=operadora)
                 else:
                     company = Aerolinea.objects.get(nombre=aerolinea)
-                    llegada = Llegada(codigo_vuelo=codigo_vuelo, aerolinea=company, origen = origen, llegada = hora_llegada, estado = estado, con_retraso=con_retraso)
+                    llegada = Llegada(codigo_vuelo=codigo_vuelo, aerolinea=company, origen = origen, hora_llegada = hora_llegada, estado = estado, con_retraso=con_retraso)
                 llegada.save()
 
 
@@ -185,6 +185,15 @@ def about(request):
 def listar_vuelos(request):
     return render(request, 'vuelos.html', {'STATIC_URL':settings.STATIC_URL,})
 
+def listar_aerolineas(request):
+    all_aerolineas = Aerolinea.objects.all()
+    template = loader.get_template('aerolineas.html')
+    context = {
+        'all_aerolineas' : all_aerolineas, 'STATIC_URL':settings.STATIC_URL,
+    }
+    result = template.render(context, request)
+    return HttpResponse(result)
+
 
 def listar_llegadas(request):
     all_llegadas = Llegada.objects.all()
@@ -201,6 +210,18 @@ def listar_salidas(request):
     template = loader.get_template('lista_salidas.html')
     context = {
         'all_salidas' : all_salidas, 'STATIC_URL':settings.STATIC_URL,
+    }
+    result = template.render(context, request)
+    return HttpResponse(result)
+
+def listar_llegadas_salidas(request, nombre_aerolinea):
+    all_salidas = Salida_comp.objects.filter(aerolinea = nombre_aerolinea)
+    all_llegadas = Llegada_comp.objects.filter(aerolinea = nombre_aerolinea)
+    template = loader.get_template('lista_llegadas_salidas.html')
+    context = {
+        'all_salidas' : all_salidas, 'STATIC_URL':settings.STATIC_URL,
+        'all_llegadas' : all_llegadas, 'STATIC_URL':settings.STATIC_URL,
+
     }
     result = template.render(context, request)
     return HttpResponse(result)

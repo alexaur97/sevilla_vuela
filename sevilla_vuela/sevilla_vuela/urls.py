@@ -26,5 +26,7 @@ urlpatterns = [
     path('vuelos/', views.listar_vuelos),
     path('llegadas/', views.listar_llegadas),
     path('salidas/', views.listar_salidas),
+    path('aerolineas/', views.listar_aerolineas),
+    path('aerolineas/<nombre_aerolinea>', views.listar_llegadas_salidas),
 
 ]
