@@ -26,5 +26,6 @@ urlpatterns = [
     path('vuelos/', views.listar_vuelos),
     path('llegadas/', views.listar_llegadas),
     path('salidas/', views.listar_salidas),
+    path('codeshare/', views.codigo_vuelos),
 
 ]
