@@ -47,7 +47,7 @@ def inicio(request):
 def codigo_vuelos(request):
     all_llegadas_comp = Llegada_comp.objects.all()
     all_salidas_comp = Salida_comp.objects.all()
-    template = loader.get_template('lista_codigo.html')
+    template = loader.get_template('listar_codigo.html')
     context = {
         'all_llegadas_comp' : all_llegadas_comp, 'all_salidas_comp' : all_salidas_comp, 'STATIC_URL':settings.STATIC_URL,
     }

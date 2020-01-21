@@ -33,6 +33,11 @@
         </div>
     {% endfor %}
 {% else %}
+    <section class="form-error">
+        <p>No hay llegadas compartidas a estas horas.</p>
+    </section>
+{% endif %}
+   
 
 {% if all_salidas_comp %}
     <div class="contenedor-titulo-vuelo">
@@ -60,7 +65,7 @@
     {% endfor %}
 {% else %}
     <section class="form-error">
-        <p>No hay salidas ni llegadas a estas horas.</p>
+        <p>No hay salidas compartidas a estas horas.</p>
     </section>
 {% endif %}
 {% endblock %}
