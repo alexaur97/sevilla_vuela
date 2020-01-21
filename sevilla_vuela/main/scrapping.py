@@ -38,7 +38,12 @@ def almacenar_salidas():
                     try:
                         company = Aerolinea.objects.get(nombre__endswith=aerolinea)
                     except:
-                        company = Aerolinea.objects.get(nombre__startswith=aerolinea)
+                        try:
+                            company = Aerolinea.objects.get(nombre__startswith=aerolinea)
+                        except:
+                            aer = Aerolinea(nombre = aerolinea, telefono = '', logo = '', email = '', url_web = '')
+                            aer.save()
+                            company = aer
                     salida = Salida(codigo_vuelo=codigo_vuelo, aerolinea=company, destino = destino, partida = hora_salida, estado = estado, con_retraso=con_retraso)
                 salida.save()
                 print('Almacenado con éxito',salida.codigo_vuelo)
@@ -79,7 +84,12 @@ def almacenar_llegadas():
                     try:
                         company = Aerolinea.objects.get(nombre__endswith=aerolinea)
                     except:
-                        company = Aerolinea.objects.get(nombre__startswith=aerolinea)
+                        try:
+                            company = Aerolinea.objects.get(nombre__startswith=aerolinea)
+                        except:
+                            aer = Aerolinea(nombre = aerolinea, telefono = '', logo = '', email = '', url_web = '')
+                            aer.save()
+                            company = aer
                     llegada = Llegada(codigo_vuelo=codigo_vuelo, aerolinea=company, origen = origen, hora_llegada=hora_llegada, estado = estado, con_retraso=con_retraso)
                 llegada.save()
                 print('Almacenado con éxito',llegada.codigo_vuelo)
@@ -118,7 +128,7 @@ def almacenar_aerolineas():
                 endLoc = len(da)
                 correo = da[startLoc: endLoc]
 
-        aerolinea = Aerolinea(nombre = nombre, telefono = telefono, logo = url_logo, email = correo, url_web = web)
+        aerolinea = Aerolinea(nombre = nombre, telefono = telefono, logo = 'http://www.aena.es'+url_logo, email = correo, url_web = web)
         aerolinea.save()
         print('Almacenada con éxito',aerolinea.nombre)
 
