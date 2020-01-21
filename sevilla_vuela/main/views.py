@@ -156,10 +156,10 @@ def almacenar_llegadas():
                     datos = ur.urlopen(operadora_url)
                     s = BeautifulSoup(datos, "lxml")
                     operadora = s.find("div", class_=["ticket__OperatedBy-s1rrbl5o-5","fbPHSm"]).get_text()
-                    llegada = Llegada_comp(codigo_vuelo=codigo_vuelo, aerolinea=aerolinea, origen = origen, llegada = hora_llegada, estado = estado, con_retraso=con_retraso, operadora=operadora)
+                    llegada = Llegada_comp(codigo_vuelo=codigo_vuelo, aerolinea=aerolinea, origen = origen, hora_llegada=hora_llegada, estado = estado, con_retraso=con_retraso, operadora=operadora)
                 else:
                     company = Aerolinea.objects.get(nombre=aerolinea)
-                    llegada = Llegada(codigo_vuelo=codigo_vuelo, aerolinea=company, origen = origen, llegada = hora_llegada, estado = estado, con_retraso=con_retraso)
+                    llegada = Llegada(codigo_vuelo=codigo_vuelo, aerolinea=company, origen = origen, hora_llegada=hora_llegada, estado = estado, con_retraso=con_retraso)
                 llegada.save()
 
 
