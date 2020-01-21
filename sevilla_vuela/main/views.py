@@ -84,13 +84,8 @@ def listar_salidas(request):
 
 
 def listar_llegadas_salidas(request, nombre_aerolinea):
-    print(nombre_aerolinea)
     all_salidas = Salida_comp.objects.filter(aerolinea = nombre_aerolinea)
     all_llegadas = Llegada_comp.objects.filter(aerolinea = nombre_aerolinea)
-    print("------------")
-    print(all_salidas)
-    print("------------")
-    print(all_llegadas)
     template = loader.get_template('lista_llegadas_salidas.html')
     context = {
         'all_salidas' : all_salidas, 'STATIC_URL':settings.STATIC_URL,
