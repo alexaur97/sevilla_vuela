@@ -45,7 +45,6 @@ class Llegada_comp(Vuelo):
         return self.codigo_vuelo + ': ' + self.origen +' - (SVQ) Sevilla'
 
 class Aerolinea(models.Model):
-    oaci = models.CharField(primary_key = True, max_length=10)
     nombre = models.CharField(max_length = 30)
     telefono = models.CharField(max_length = 15)
     logo = models.URLField()
@@ -54,3 +53,6 @@ class Aerolinea(models.Model):
 
     def __str__(self):
         return self.nombre + " (" + self.oaci + ")"
+    
+    class Meta:
+        ordering = ('nombre',)

@@ -12,22 +12,22 @@ from django.template import loader
 
 def inicio(request):
     try:
-        #Aerolinea.objects.all().delete()        
-        #Salida.objects.all().delete()
-        #Llegada.objects.all().delete()
+        print('Almacenando vuelos......................')
         scraping_vuelos()
-        scraping_aerolineas()
-
-    except ObjectDoesNotExist:
-        scraping_aerolineas()
-
+        print('Vuelos almacenados')
+    except Exception as e:
+        if e != ObjectDoesNotExist:
+            return HttpResponse('<h1>Algo ha salido mal</h1>')
+        else:
+            print('Almacenando aerolíneas......................')
+            scraping_aerolineas()
 
     formulario1 = vuelos_por_destino()
     formulario2 = vuelos_por_origen()
 
     llegadas = None
     salidas = None
-    destino=None
+    destino = None
     origen = None
 
     post=0
@@ -50,13 +50,14 @@ def inicio(request):
 
 
 def scraping_aerolineas():
+    Aerolinea.objects.all().delete()
     almacenar_aerolineas()
 
 def scraping_vuelos():
+    Salida.objects.all().delete()
+    Llegada.objects.all().delete()
     almacenar_llegadas()
     almacenar_salidas()
-   
-
 
 def salidas():
     datos = ur.urlopen("https://www.flightstats.com/go/weblet?guid=34b64945a69b9cac:7b907964:13ed466ba45:3e7e&weblet=status&action=AirportFlightStatus&airportCode=SVQ")
@@ -151,11 +152,6 @@ def almacenar_aerolineas():
         divs = s.find("div", class_=["datos_interes"])
         url_logo = divs.find("img").get("src")
         companyInfo= divs.find("div", class_=["companyInfo"])
-        ul = companyInfo.find("ul")
-        aaa  = ul.find("li")
-        oaciExt  =aaa.find("strong")
-        if oaciExt is not None: 
-            oaciT= oaciExt.get_text()
         
         datos_ficha = companyInfo.find("ul", class_= ["datos_ficha"])
         datos = datos_ficha.find_all("li")
