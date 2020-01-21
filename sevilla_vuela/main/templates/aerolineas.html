@@ -16,12 +16,21 @@
     {% for aer in all_aerolineas %}
         <div class="flex">
             <div class="flex-img">
-                <div>
+                <div style="text-align: center;">
                     <img style="align-self: auto;" src="{{aer.logo}}">
                 </div>
                 <div style="text-align: center;">
                     <a href="/aerolineas/{{aer.nombre}}">{{aer.nombre}}</a>
                 </div>
+                {% if aer.telefono %}
+                <div style="text-align: center;">Telefono: {{aer.telefono}}</div>
+                {% endif %}
+                {% if aer.email %}
+                <div style="text-align: center;">Email: {{aer.email}}</div>
+                {% endif %}
+                {% if aer.url_web %}
+                <div style="text-align: center;">Web: {{aer.url_web}}</div>
+                {% endif %}
             </div>
           
         </div>
