@@ -27,5 +27,7 @@ urlpatterns = [
     path('llegadas/', views.listar_llegadas),
     path('salidas/', views.listar_salidas),
     path('codeshare/', views.codigo_vuelos),
+    path('aerolineas/', views.listar_aerolineas),
+    path('aerolineas/<nombre_aerolinea>', views.listar_llegadas_salidas),
 
 ]

@@ -1,0 +1,34 @@
+{% extends 'master.html' %}
+
+{% block titulo %} AEROLINEAS {% endblock %}
+    
+{% block contenido %}
+<div class="contenedor-url-rel">
+    <div class="url-rel" >
+        <a href="/">Inicio</a> > <a href="/aerolineas">Aerolineas</a> 
+    </div>
+</div>
+{% if all_aerolineas %}
+    <div class="contenedor-nombre-aerolinea">
+        <h1 class="nombre-aerolinea">Lista de las Aerolineas</h1>
+    </div>
+
+    {% for aer in all_aerolineas %}
+        <div class="flex">
+            <div class="flex-img">
+                <div>
+                    <img style="align-self: auto;" src="{{aer.logo}}">
+                </div>
+                <div style="text-align: center;">
+                    <a href="/aerolineas/{{aer.nombre}}">{{aer.nombre}}</a>
+                </div>
+            </div>
+          
+        </div>
+    {% endfor %}
+{% else %}
+    <section class="form-error">
+        <p>No hay aerolineas en estos momentos.</p>
+    </section>
+{% endif %}
+{% endblock %}
