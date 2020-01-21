@@ -1,87 +1,66 @@
 {% extends 'master.html' %}
 
-{% block titulo %} CODIGO COMPARTIDO {% endblock %}
-
+{% block titulo %} VUELOS COMPARTIDOS {% endblock %}
+    
 {% block contenido %}
-
-<table>
-    <tr>
-        <th>
-            <fieldset>
-                <legend>
-                    Buscador de vuelos por codigo de vuelo
-                </legend>
-                <form id = "formulario3" method="POST">{% csrf_token %}
-                    <input class="txt" type="text" name="codigo_vuelo" placeholder="Codigo" required/>
-                    <input class="button" type="submit" value="Buscar"/>
-                </form>
-            </fieldset>
-        </th>
-    </tr>
-</table>
-
-
-
-{% if salidas %}
-<div class="contenedor-titulo-vuelo">
-    <h1 class="titulo-vuelo">Salidas</h1>
-</div>
-
-{% for salida in salidas%}
-<div class="flex">
-    <div class="flex-img">
-        <div>
-            <img style="align-self: auto;" src="{{salida.aerolinea.logo}}">
-        </div>
-        <div style="text-align: center;">
-            {{salida.aerolinea}}
-        </div>
-    </div>
-    <div class="flex-txt">
-        <p>{{salida}}</p>
-        {{salida.partida}}
-        {{salida.estado}}
-        {% if salida.con_retraso == True %}
-           <p style="color: rgb(206, 81, 81);">Con retraso</p>
-        {% endif %}
+<div class="contenedor-url-rel">
+    <div class="url-rel" >
+        <a href="/">Inicio</a> > <a href="/vuelos">Vuelos</a> > Vuelos compartidos
     </div>
 </div>
-{% endfor %}
+{% if all_llegadas_comp %}
+    <div class="contenedor-titulo-vuelo">
+        <h1 class="titulo-vuelo">Lista de las llegadas de todos los vuelos compartidos</h1>
+    </div>
+
+    {% for salida in all_llegadas_comp %}
+        <div class="flex">
+            <div class="flex-img">
+                <div>
+                    <img style="align-self: auto;" src="{{salida.aerolinea.logo}}">
+                </div>
+                <div style="text-align: center;">
+                    {{salida.aerolinea}}
+                </div>
+            </div>
+            <div class="flex-txt">
+                <p>{{salida}}</p>
+                <p>Llegada: {{salida.hora_llegada}} - {{salida.estado}}</p>
+                {% if salida.con_retraso == True %}
+                    <p style="color: rgb(206, 81, 81);">Con retraso</p>
+                {% endif %}
+            </div>
+        </div>
+    {% endfor %}
 {% else %}
 
-{% if llegadas %}
-<div class="contenedor-titulo-vuelo">
-    <h1 class="titulo-vuelo">Resultados de llegadas para: {{origen}}</h1>
-</div>
+{% if all_salidas_comp %}
+    <div class="contenedor-titulo-vuelo">
+        <h1 class="titulo-vuelo">Lista de las salidas de todos los vuelos compartidos</h1>
+    </div>
 
-{% for llegada in llegadas%}
-<div class="flex">
-    <div class="flex-img">
-        <div>
-            <img style="align-self: auto;" src="{{llegada.aerolinea.logo}}">
+    {% for salida in all_salidas_comp %}
+        <div class="flex">
+            <div class="flex-img">
+                <div>
+                    <img style="align-self: auto;" src="{{salida.aerolinea.logo}}">
+                </div>
+                <div style="text-align: center;">
+                    {{salida.aerolinea}}
+                </div>
+            </div>
+            <div class="flex-txt">
+                <p>{{salida}}</p>
+                <p>Salida: {{salida.partida}} - {{salida.estado}}</p>
+                {% if salida.con_retraso == True %}
+                    <p style="color: rgb(206, 81, 81);">Con retraso</p>
+                {% endif %}
+            </div>
         </div>
-        <div style="text-align: center;">
-            {{llegada.aerolinea}}
-        </div>
-    </div>
-    <div class="flex-txt">
-        <p>{{llegada}}</p>
-        <p>Llegada: {{llegada.partida}} - {{llegada.estado}}</p>
-        {% if llegada.con_retraso == True %}
-           <p style="color: rgb(206, 81, 81);">Con retraso</p>
-        {% endif %}
-    </div>
-</div>
-{% endfor %}
+    {% endfor %}
 {% else %}
-{% if post == 1%}
-<section class="form-error">
-    <p>No hay resultados que coincidan con los criterios de búsqueda</p>
-</section>
+    <section class="form-error">
+        <p>No hay salidas ni llegadas a estas horas.</p>
+    </section>
 {% endif %}
-{% endif %}
-
-{% endif %}
-
 {% endblock %}
-
