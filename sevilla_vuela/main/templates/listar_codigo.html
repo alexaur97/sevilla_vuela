@@ -1,0 +1,25 @@
+{% extends 'master.html' %}
+
+
+{% block titulo %} VUELOS {% endblock %}
+
+{% block contenido %}
+<div class="url-rel" ><a href="/">Inicio</a> > Vuelos</div>
+
+<ul class="lista-opciones">
+    <li>
+        <a href="/salidas">
+            <div>
+                Salidas
+            </div>
+        </a>
+    </li>
+    <li>
+        <a href="/llegadas">
+            <div>
+                Llegadas
+            </div>
+        </a>
+    </li>
+</ul>
+{% endblock %}
