@@ -52,7 +52,7 @@ class Aerolinea(models.Model):
     url_web = models.URLField()
 
     def __str__(self):
-        return self.nombre + " (" + self.oaci + ")"
+        return self.nombre
     
     class Meta:
         ordering = ('nombre',)
