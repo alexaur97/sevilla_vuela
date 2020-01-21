@@ -8,13 +8,10 @@ from .forms import vuelos_por_destino
 from .forms import vuelos_por_origen
 from django.template import loader
 
-
-
-
 def inicio(request):
-    if Aerolinea.objects.all().count() == 0:
+    if Aerolinea.objects.all() == 0:
         scraping_aerolineas()
-
+    
     formulario1 = vuelos_por_destino()
     formulario2 = vuelos_por_origen()
 
@@ -40,7 +37,6 @@ def inicio(request):
             llegadas = Llegada.objects.filter(origen__contains=origen)
     else:
         scraping_vuelos()
-
     return render(request, 'index.html', {'STATIC_URL':settings.STATIC_URL, 'post':post,'formulario1':formulario1, 'salidas':salidas, 'destino':destino, 'formulario2':formulario2, 'llegadas':llegadas, 'origen':origen})
 
 
@@ -101,3 +97,7 @@ def listar_llegadas_salidas(request, nombre_aerolinea):
 
 def about(request):
     return render(request, 'about.html')
+
+def refrescar(request): # Para popular las aerolíneas manualmente
+    scraping_aerolineas()
+    return inicio(request)
