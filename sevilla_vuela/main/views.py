@@ -7,6 +7,7 @@ from django.http import HttpResponse
 from django.conf import settings
 from .forms import vuelos_por_destino
 from .forms import vuelos_por_origen
+from .forms import vuelos_por_codigo
 from django.template import loader
 
 def inicio(request):
@@ -44,6 +45,28 @@ def inicio(request):
             llegadas = Llegada.objects.filter(origen__contains=origen)
 
     return render(request, 'index.html', {'STATIC_URL':settings.STATIC_URL, 'post':post,'formulario1':formulario1, 'salidas':salidas, 'destino':destino, 'formulario2':formulario2, 'llegadas':llegadas, 'origen':origen})
+
+
+def codigo_vuelos(request):
+
+    formulario3 = vuelos_por_codigo()
+
+
+    codigo_vuelo = None
+    llegadas = None
+    salidas = None
+
+    post = 0
+    if request.method == 'POST':
+        formulario3 = vuelos_por_codigo(request.POST)
+        post=1
+
+        if formulario3.is_valid():
+            codigo_vuelo = formulario3.cleaned_data['codigo_vuelo']
+            salidas = Salida.objects.filter(codigo_vuelo__contains=codigo_vuelo)
+            llegadas = Llegada.objects.filter(codigo_vuelo__contains=codigo_vuelo)
+    
+    return render(request, 'listar_codigo.html', {'STATIC_URL':settings.STATIC_URL, 'post':post,'formulario3':formulario3, 'salidas':salidas, 'llegadas':llegadas, 'codigo_vuelo':codigo_vuelo})
 
 
 def scraping_aerolineas():

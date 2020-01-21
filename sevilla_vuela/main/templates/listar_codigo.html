@@ -1,25 +1,87 @@
 {% extends 'master.html' %}
 
-
-{% block titulo %} VUELOS {% endblock %}
+{% block titulo %} CODIGO COMPARTIDO {% endblock %}
 
 {% block contenido %}
-<div class="url-rel" ><a href="/">Inicio</a> > Vuelos</div>
 
-<ul class="lista-opciones">
-    <li>
-        <a href="/salidas">
-            <div>
-                Salidas
-            </div>
-        </a>
-    </li>
-    <li>
-        <a href="/llegadas">
-            <div>
-                Llegadas
-            </div>
-        </a>
-    </li>
-</ul>
+<table>
+    <tr>
+        <th>
+            <fieldset>
+                <legend>
+                    Buscador de vuelos por codigo de vuelo
+                </legend>
+                <form id = "formulario3" method="POST">{% csrf_token %}
+                    <input class="txt" type="text" name="codigo_vuelo" placeholder="Codigo" required/>
+                    <input class="button" type="submit" value="Buscar"/>
+                </form>
+            </fieldset>
+        </th>
+    </tr>
+</table>
+
+
+
+{% if salidas %}
+<div class="contenedor-titulo-vuelo">
+    <h1 class="titulo-vuelo">Salidas</h1>
+</div>
+
+{% for salida in salidas%}
+<div class="flex">
+    <div class="flex-img">
+        <div>
+            <img style="align-self: auto;" src="{{salida.aerolinea.logo}}">
+        </div>
+        <div style="text-align: center;">
+            {{salida.aerolinea}}
+        </div>
+    </div>
+    <div class="flex-txt">
+        <p>{{salida}}</p>
+        {{salida.partida}}
+        {{salida.estado}}
+        {% if salida.con_retraso == True %}
+           <p style="color: rgb(206, 81, 81);">Con retraso</p>
+        {% endif %}
+    </div>
+</div>
+{% endfor %}
+{% else %}
+
+{% if llegadas %}
+<div class="contenedor-titulo-vuelo">
+    <h1 class="titulo-vuelo">Resultados de llegadas para: {{origen}}</h1>
+</div>
+
+{% for llegada in llegadas%}
+<div class="flex">
+    <div class="flex-img">
+        <div>
+            <img style="align-self: auto;" src="{{llegada.aerolinea.logo}}">
+        </div>
+        <div style="text-align: center;">
+            {{llegada.aerolinea}}
+        </div>
+    </div>
+    <div class="flex-txt">
+        <p>{{llegada}}</p>
+        <p>Llegada: {{llegada.partida}} - {{llegada.estado}}</p>
+        {% if llegada.con_retraso == True %}
+           <p style="color: rgb(206, 81, 81);">Con retraso</p>
+        {% endif %}
+    </div>
+</div>
+{% endfor %}
+{% else %}
+{% if post == 1%}
+<section class="form-error">
+    <p>No hay resultados que coincidan con los criterios de búsqueda</p>
+</section>
+{% endif %}
+{% endif %}
+
+{% endif %}
+
 {% endblock %}
+
