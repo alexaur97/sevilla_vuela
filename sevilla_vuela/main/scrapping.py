@@ -3,7 +3,7 @@ import urllib.request as ur
 from .models import Salida, Salida_comp, Llegada, Llegada_comp, Aerolinea
 
 def salidas():
-    datos = ur.urlopen("https://www.flightstats.com/go/weblet?guid=34b64945a69b9cac:7b907964:13ed466ba45:3e7e&weblet=status&action=AirportFlightStatus&airportCode=MAD")
+    datos = ur.urlopen("https://www.flightstats.com/go/weblet?guid=34b64945a69b9cac:7b907964:13ed466ba45:3e7e&weblet=status&action=AirportFlightStatus&airportCode=SVQ")
     s = BeautifulSoup(datos, "lxml")
     lista = s.find_all("table", class_=["tableListingTable"])
     return lista
@@ -48,7 +48,7 @@ def almacenar_salidas():
                 print('Almacenado con éxito',salida.codigo_vuelo)
 
 def llegadas():
-    datos = ur.urlopen("https://www.flightstats.com/go/weblet?guid=34b64945a69b9cac:7b907964:13ed466ba45:3e7e&weblet=status&action=AirportFlightStatus&airportCode=MAD&airportQueryType=1")
+    datos = ur.urlopen("https://www.flightstats.com/go/weblet?guid=34b64945a69b9cac:7b907964:13ed466ba45:3e7e&weblet=status&action=AirportFlightStatus&airportCode=SVQ&airportQueryType=1")
     s = BeautifulSoup(datos, "lxml")
     lista = s.find_all("table", class_=["tableListingTable"])
     return lista
