@@ -2,16 +2,15 @@ from django.shortcuts import render
 from .models import Salida, Salida_comp, Llegada, Llegada_comp, Aerolinea
 from .scrapping import scraping_aerolineas, scraping_vuelos
 from django.core.exceptions import ObjectDoesNotExist
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.conf import settings
 from .forms import vuelos_por_destino
 from .forms import vuelos_por_origen
 from django.template import loader
 
 def inicio(request):
-    if Aerolinea.objects.all() == 0:
-        scraping_aerolineas()
-    
+    if Aerolinea.objects.all().count() == 0:
+            scraping_aerolineas()
     formulario1 = vuelos_por_destino()
     formulario2 = vuelos_por_origen()
 
@@ -52,10 +51,10 @@ def codigo_vuelos(request):
 
 
 def listar_aerolineas(request):
-    all_aerolineas = Aerolinea.objects.all()
+    all_aerolineas = Aerolinea.objects.filter(es_habitual = True)
     template = loader.get_template('aerolineas.html')
     context = {
-        'all_aerolineas' : all_aerolineas, 'STATIC_URL':settings.STATIC_URL,
+        'all_aerolineas' : all_aerolineas, 'STATIC_URL':settings.STATIC_URL, 'count': len(all_aerolineas),
     }
     result = template.render(context, request)
     return HttpResponse(result)
@@ -84,13 +83,15 @@ def listar_salidas(request):
 
 
 def listar_llegadas_salidas(request, nombre_aerolinea):
-    all_salidas = Salida_comp.objects.filter(aerolinea = nombre_aerolinea)
-    all_llegadas = Llegada_comp.objects.filter(aerolinea = nombre_aerolinea)
+    all_salidas = Salida.objects.filter(aerolinea__nombre = nombre_aerolinea)
+    all_llegadas = Llegada.objects.filter(aerolinea__nombre = nombre_aerolinea)
     template = loader.get_template('lista_llegadas_salidas.html')
     context = {
-        'all_salidas' : all_salidas, 'STATIC_URL':settings.STATIC_URL,
-        'all_llegadas' : all_llegadas, 'STATIC_URL':settings.STATIC_URL,
-
+        'all_salidas' : all_salidas,
+        'STATIC_URL':settings.STATIC_URL,
+        'all_llegadas' : all_llegadas,
+        'STATIC_URL':settings.STATIC_URL,
+        'nombre_aerolinea':nombre_aerolinea,
     }
     result = template.render(context, request)
     return HttpResponse(result)
@@ -100,4 +101,4 @@ def about(request):
 
 def refrescar(request): # Para popular las aerolíneas manualmente
     scraping_aerolineas()
-    return inicio(request)
+    return HttpResponseRedirect('/')

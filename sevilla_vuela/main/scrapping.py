@@ -3,7 +3,7 @@ import urllib.request as ur
 from .models import Salida, Salida_comp, Llegada, Llegada_comp, Aerolinea
 
 def salidas():
-    datos = ur.urlopen("https://www.flightstats.com/go/weblet?guid=34b64945a69b9cac:7b907964:13ed466ba45:3e7e&weblet=status&action=AirportFlightStatus&airportCode=SVQ")
+    datos = ur.urlopen("https://www.flightstats.com/go/weblet?guid=34b64945a69b9cac:7b907964:13ed466ba45:3e7e&weblet=status&action=AirportFlightStatus&airportCode=MAD")
     s = BeautifulSoup(datos, "lxml")
     lista = s.find_all("table", class_=["tableListingTable"])
     return lista
@@ -28,12 +28,11 @@ def almacenar_salidas():
                 
                 codigo_compartido = c[0].find('span')
                 if codigo_compartido != None:
-                    codigo_vuelo = codigo_vuelo + ' (codeshare)'
                     operadora_url = c[0].find('a').get('href')
                     datos = ur.urlopen(operadora_url)
                     s = BeautifulSoup(datos, "lxml")
                     operadora = s.find("div", class_=["ticket__OperatedBy-s1rrbl5o-5","fbPHSm"]).get_text()
-                    salida = Salida_comp(codigo_vuelo=codigo_vuelo, aerolinea=aerolinea, destino = destino, partida = hora_salida, estado = estado, con_retraso=con_retraso, operadora=operadora)
+                    salida = Salida_comp(codigo_vuelo=codigo_vuelo, aerolinea=aerolinea, destino = destino, partida = hora_salida, estado = estado, con_retraso=con_retraso, operadora=operadora.replace('Operated by','Operado por'))
                 else:
                     try:
                         company = Aerolinea.objects.get(nombre__endswith=aerolinea)
@@ -41,7 +40,7 @@ def almacenar_salidas():
                         try:
                             company = Aerolinea.objects.get(nombre__startswith=aerolinea)
                         except:
-                            aer = Aerolinea(nombre = aerolinea, telefono = '', logo = '', email = '', url_web = '')
+                            aer = Aerolinea(nombre = aerolinea, telefono = '', logo = '', email = '', url_web = '', es_habitual = False)
                             aer.save()
                             company = aer
                     salida = Salida(codigo_vuelo=codigo_vuelo, aerolinea=company, destino = destino, partida = hora_salida, estado = estado, con_retraso=con_retraso)
@@ -49,7 +48,7 @@ def almacenar_salidas():
                 print('Almacenado con éxito',salida.codigo_vuelo)
 
 def llegadas():
-    datos = ur.urlopen("https://www.flightstats.com/go/weblet?guid=34b64945a69b9cac:7b907964:13ed466ba45:3e7e&weblet=status&action=AirportFlightStatus&airportCode=SVQ&airportQueryType=1")
+    datos = ur.urlopen("https://www.flightstats.com/go/weblet?guid=34b64945a69b9cac:7b907964:13ed466ba45:3e7e&weblet=status&action=AirportFlightStatus&airportCode=MAD&airportQueryType=1")
     s = BeautifulSoup(datos, "lxml")
     lista = s.find_all("table", class_=["tableListingTable"])
     return lista
@@ -74,12 +73,11 @@ def almacenar_llegadas():
                 
                 codigo_compartido = c[0].find('span')
                 if codigo_compartido != None:
-                    codigo_vuelo = codigo_vuelo + ' (codeshare)'
                     operadora_url = c[0].find('a').get('href')
                     datos = ur.urlopen(operadora_url)
                     s = BeautifulSoup(datos, "lxml")
                     operadora = s.find("div", class_=["ticket__OperatedBy-s1rrbl5o-5","fbPHSm"]).get_text()
-                    llegada = Llegada_comp(codigo_vuelo=codigo_vuelo, aerolinea=aerolinea, origen = origen, hora_llegada=hora_llegada, estado = estado, con_retraso=con_retraso, operadora=operadora)
+                    llegada = Llegada_comp(codigo_vuelo=codigo_vuelo, aerolinea=aerolinea, origen = origen, hora_llegada=hora_llegada, estado = estado, con_retraso=con_retraso, operadora=operadora.replace('Operated by','Operado por'))
                 else:
                     try:
                         company = Aerolinea.objects.get(nombre__endswith=aerolinea)
@@ -87,7 +85,7 @@ def almacenar_llegadas():
                         try:
                             company = Aerolinea.objects.get(nombre__startswith=aerolinea)
                         except:
-                            aer = Aerolinea(nombre = aerolinea, telefono = '', logo = '', email = '', url_web = '')
+                            aer = Aerolinea(nombre = aerolinea, telefono = '', logo = '', email = '', url_web = '', es_habitual = False)
                             aer.save()
                             company = aer
                     llegada = Llegada(codigo_vuelo=codigo_vuelo, aerolinea=company, origen = origen, hora_llegada=hora_llegada, estado = estado, con_retraso=con_retraso)
@@ -128,7 +126,7 @@ def almacenar_aerolineas():
                 endLoc = len(da)
                 correo = da[startLoc: endLoc]
 
-        aerolinea = Aerolinea(nombre = nombre, telefono = telefono, logo = 'http://www.aena.es'+url_logo, email = correo, url_web = web)
+        aerolinea = Aerolinea(nombre = nombre, telefono = telefono, logo = 'http://www.aena.es'+url_logo, email = correo, url_web = web, es_habitual = True)
         aerolinea.save()
         print('Almacenada con éxito',aerolinea.nombre)
 

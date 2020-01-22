@@ -5,39 +5,43 @@
 {% block contenido %}
 <div class="contenedor-url-rel">
     <div class="url-rel" >
-        <a href="/">Inicio</a> > <a href="/aerolineas">Aerolineas</a> 
+        <a href="/">Inicio</a> > Aerolíneas
     </div>
 </div>
 {% if all_aerolineas %}
-    <div class="contenedor-nombre-aerolinea">
-        <h1 class="nombre-aerolinea">Lista de las Aerolineas</h1>
+    <div class="contenedor-titulo-vuelo">
+        <h1 class="titulo-vuelo">Lista de Aerolíneas</h1>
+        <p class="titulo-vuelo">Mostrando un total de {{count}} aerolíneas</p>
     </div>
 
     {% for aer in all_aerolineas %}
-        <div class="flex">
-            <div class="flex-img">
-                <div style="text-align: center;">
-                    <img style="align-self: auto;" src="{{aer.logo}}">
+        <a href="/aerolineas/{{aer.nombre}}" style="text-decoration: none; color: #555e5f;">
+            <div class="flex">
+                <div class="flex-img">
+                    <div>
+                        <img style="align-self: auto;" src="{{aer.logo}}">
+                    </div>
+                    <div style="text-align: center;">
+                        {{aer.nombre}}
+                    </div>
                 </div>
-                <div style="text-align: center;">
-                    <a href="/aerolineas/{{aer.nombre}}">{{aer.nombre}}</a>
+                <div class="flex-txt">
+                    {% if aer.telefono %}
+                    <p>Telefono: {{aer.telefono}}</p>
+                    {% endif %}
+                    {% if aer.email %}
+                    <p>Email: {{aer.email}}</p>
+                    {% endif %}
+                    {% if aer.url_web %}
+                    <p>Web: {{aer.url_web}}</p>
+                    {% endif %}
                 </div>
-                {% if aer.telefono %}
-                <div style="text-align: center;">Telefono: {{aer.telefono}}</div>
-                {% endif %}
-                {% if aer.email %}
-                <div style="text-align: center;">Email: {{aer.email}}</div>
-                {% endif %}
-                {% if aer.url_web %}
-                <div style="text-align: center;">Web: {{aer.url_web}}</div>
-                {% endif %}
             </div>
-          
-        </div>
+        </a>
     {% endfor %}
 {% else %}
     <section class="form-error">
-        <p>No hay aerolineas en estos momentos.</p>
+        <p>No hay aerolíneas en estos momentos.</p>
     </section>
 {% endif %}
 {% endblock %}

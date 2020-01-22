@@ -50,6 +50,7 @@ class Aerolinea(models.Model):
     logo = models.URLField()
     email = models.EmailField(null = True)
     url_web = models.URLField()
+    es_habitual = models.BooleanField(verbose_name='¿Esta aerolínea opera habitualmente en Sevilla?')
 
     def __str__(self):
         return self.nombre

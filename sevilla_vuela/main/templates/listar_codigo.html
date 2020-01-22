@@ -13,20 +13,13 @@
         <h1 class="titulo-vuelo">Lista de las llegadas de todos los vuelos compartidos</h1>
     </div>
 
-    {% for salida in all_llegadas_comp %}
+    {% for llegada in all_llegadas_comp %}
         <div class="flex">
-            <div class="flex-img">
-                <div>
-                    <img style="align-self: auto;" src="{{salida.aerolinea.logo}}">
-                </div>
-                <div style="text-align: center;">
-                    {{salida.aerolinea}}
-                </div>
-            </div>
             <div class="flex-txt">
-                <p>{{salida}}</p>
-                <p>Llegada: {{salida.hora_llegada}} - {{salida.estado}}</p>
-                {% if salida.con_retraso == True %}
+                <p>{{llegada.aerolinea}} - <strong>{{llegada.operadora}}</strong></p>
+                <p>{{llegada}}</p>
+                <p>Llegada: {{llegada.hora_llegada}} - {{llegada.estado}}</p>
+                {% if llegada.con_retraso == True %}
                     <p style="color: rgb(206, 81, 81);">Con retraso</p>
                 {% endif %}
             </div>
@@ -34,7 +27,7 @@
     {% endfor %}
 {% else %}
     <section class="form-error">
-        <p>No hay llegadas compartidas a estas horas.</p>
+        <p>No hay llegadas de código compartido a estas horas.</p>
     </section>
 {% endif %}
    
@@ -46,17 +39,10 @@
 
     {% for salida in all_salidas_comp %}
         <div class="flex">
-            <div class="flex-img">
-                <div>
-                    <img style="align-self: auto;" src="{{salida.aerolinea.logo}}">
-                </div>
-                <div style="text-align: center;">
-                    {{salida.aerolinea}}
-                </div>
-            </div>
             <div class="flex-txt">
+                <p>{{salida.aerolinea}} - <strong>{{salida.operadora}}</strong></p>
                 <p>{{salida}}</p>
-                <p>Salida: {{salida.partida}} - {{salida.estado}}</p>
+                <p>Llegada: {{salida.hora_llegada}} - {{salida.estado}}</p>
                 {% if salida.con_retraso == True %}
                     <p style="color: rgb(206, 81, 81);">Con retraso</p>
                 {% endif %}
@@ -65,7 +51,7 @@
     {% endfor %}
 {% else %}
     <section class="form-error">
-        <p>No hay salidas compartidas a estas horas.</p>
+        <p>No hay salidas de código compartido a estas horas.</p>
     </section>
 {% endif %}
 {% endblock %}

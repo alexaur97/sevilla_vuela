@@ -5,7 +5,7 @@
 {% block contenido %}
 <div class="contenedor-url-rel">
     <div class="url-rel" >
-        <a href="/">Inicio</a> > <a href="/aerolineas">Aerolineas</a> 
+        <a href="/">Inicio</a> > <a href="/aerolineas">Aerolíneas</a> > {{nombre_aerolinea}}
     </div>
 </div>
 {% if all_llegadas %}
@@ -13,22 +13,29 @@
         <h1 class="titulo-vuelo">Lista de las llegadas de todos los vuelos</h1>
     </div>
 
-    {% for salida in all_llegadas %}
+    {% for llegada in all_llegadas %}
         <div class="flex">
             <div class="flex-img">
+                <div>
+                    <img style="align-self: auto;" src="{{llegada.aerolinea.logo}}">
+                </div>
                 <div style="text-align: center;">
-                    {{salida.aerolinea}}
+                    {{llegada.aerolinea.nombre}}
                 </div>
             </div>
             <div class="flex-txt">
-                <p>{{salida}}</p>
-                <p>Llegada: {{salida.hora_llegada}} - {{salida.estado}}</p>
-                {% if salida.con_retraso == True %}
+                <p>{{llegada}}</p>
+                <p>Llegada: {{llegada.hora_llegada}} - {{llegada.estado}}</p>
+                {% if llegada.con_retraso == True %}
                     <p style="color: rgb(206, 81, 81);">Con retraso</p>
                 {% endif %}
             </div>
         </div>
     {% endfor %}
+{% else %}
+    <section class="form-error">
+        <p>No hay llegadas de esta aerolínea.</p>
+    </section>
 {% endif %}
 
 {% if all_salidas %}
@@ -42,7 +49,7 @@
                         <img style="align-self: auto;" src="{{salida.aerolinea.logo}}">
                     </div>
                     <div style="text-align: center;">
-                        {{salida.aerolinea}}
+                        {{salida.aerolinea.nombre}}
                     </div>
                 </div>
                 <div class="flex-txt">
@@ -56,7 +63,7 @@
         {% endfor %}
 {% else %}
     <section class="form-error">
-        <p>No hay salidas ni llegadas de esta aerolinea.</p>
+        <p>No hay salidas de esta aerolinea.</p>
     </section>
 {% endif %}
 {% endblock %}
